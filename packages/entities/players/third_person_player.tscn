@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://0nfdrein6wob"]
+
+[ext_resource type="Script" path="res://packages/entities/players/third_person_player.gd" id="1_35jiu"]
+[ext_resource type="PackedScene" uid="uid://d2qh2c2ai00sq" path="res://packages/model/unitychan/unitychan_01.tscn" id="2_jg2dh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_oqmee"]
+radius = 0.3
+height = 1.6
+
+[node name="ThirdPersonPlayer" type="CharacterBody3D" node_paths=PackedStringArray("camera_base", "camera_rot", "camera_camera")]
+script = ExtResource("1_35jiu")
+camera_base = NodePath("CameraBase")
+camera_rot = NodePath("CameraBase/CameraRot")
+camera_camera = NodePath("CameraBase/CameraRot/SpringArm3D/Camera3D")
+
+[node name="Models" type="Node3D" parent="."]
+
+[node name="Unitychan" parent="Models" instance=ExtResource("2_jg2dh")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CapsuleShape3D_oqmee")
+
+[node name="CameraBase" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36, 0)
+
+[node name="CameraRot" type="Node3D" parent="CameraBase"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraBase/CameraRot"]
+transform = Transform3D(-1, -2.99003e-08, 8.21505e-08, 0, 0.939693, 0.34202, -8.74228e-08, 0.34202, -0.939693, 0, 0, 0)
+spring_length = 2.4
+
+[node name="Camera3D" type="Camera3D" parent="CameraBase/CameraRot/SpringArm3D"]

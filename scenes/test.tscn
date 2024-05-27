@@ -1,3 +1,53 @@
-[gd_scene format=3 uid="uid://bqw77lqdqvp0j"]
+[gd_scene load_steps=10 format=3 uid="uid://bqw77lqdqvp0j"]
+
+[ext_resource type="PackedScene" uid="uid://0nfdrein6wob" path="res://packages/entities/players/third_person_player.tscn" id="1_5vb73"]
+[ext_resource type="Script" path="res://packages/entities/players/player_input.gd" id="2_namds"]
+[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="3_mmi7r"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ctqps"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_csr8g"]
+sky_material = SubResource("ProceduralSkyMaterial_ctqps")
+
+[sub_resource type="Environment" id="Environment_yjm5f"]
+background_mode = 2
+sky = SubResource("Sky_csr8g")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qutcf"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_pxm6j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3we3"]
+albedo_color = Color(1, 0, 0, 1)
 
 [node name="Test" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_yjm5f")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="ThirdPersonPlayer" parent="." node_paths=PackedStringArray("player_input") instance=ExtResource("1_5vb73")]
+player_input = NodePath("PlayerInput")
+
+[node name="PlayerInput" type="Node3D" parent="ThirdPersonPlayer"]
+script = ExtResource("2_namds")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Virtual Joystick" parent="UI" instance=ExtResource("3_mmi7r")]
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+mesh = SubResource("PlaneMesh_qutcf")
+
+[node name="Cube" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.549911, 1.29967)
+mesh = SubResource("BoxMesh_pxm6j")
+surface_material_override/0 = SubResource("StandardMaterial3D_r3we3")
