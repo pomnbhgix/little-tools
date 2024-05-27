@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://0nfdrein6wob"]
+
+[node name="ThirdPersonController" type="Node3D"]
